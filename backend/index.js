@@ -38,7 +38,6 @@ app.use(
   cors({
     origin: [
       "https://chat-two-eta-68.vercel.app",      // your current frontend
-      "https://chat-sphere-ecru-theta.vercel.app", // main prod
       "http://localhost:5173",                   // local dev
     ],
     credentials: true,
