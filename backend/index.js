@@ -18,12 +18,7 @@ const PORT = process.env.PORT || 5001; // Change to 5001 to match frontend
 
 const __dirname = path.resolve();
 
-// app.use(
-//   cors({
-//     origin: "https://chat-sphere-ecru-theta.vercel.app",
-//     credentials: true, // allow frontend to send cookies
-//   })
-// );
+
 
 const allowedOrigins = [
   "http://localhost:5173",                     // Vite dev
@@ -34,17 +29,24 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // allow requests with no origin (like mobile apps, curl)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
+    origin: "true",
+    credentials: true, // allow frontend to send cookies
   })
 );
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       // allow requests with no origin (like mobile apps, curl)
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       }
+//       return callback(new Error("Not allowed by CORS"));
+//     },
+//     credentials: true,
+//   })
+// );
 
 
 app.use(express.json());
@@ -62,13 +64,13 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "Server is running" });
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+//   });
+// }
 
 // Error handling middleware
 app.use((err, req, res, next) => {
