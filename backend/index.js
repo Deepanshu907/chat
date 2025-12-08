@@ -29,7 +29,7 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: "true",
+    origin: "https://chat-backend-h4jy.onrender.com/",
     credentials: true, // allow frontend to send cookies
   })
 );
