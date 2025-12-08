@@ -21,7 +21,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
       document.body.appendChild(script);
     });
   };
-    
+
   const handlePaymentClick = () => {
     setShowPaymentModal(true);
   };
@@ -52,18 +52,16 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
     }
 
     if (isProcessing) return;
-    
+
     setIsProcessing(true);
-    
+
     try {
-      // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
         toast.error("Failed to load payment gateway");
         return;
       }
 
-      // Create order
       const orderData = await createPaymentOrder(amount);
       if (!orderData.success) {
         toast.error(orderData.message || "Failed to create payment order");
@@ -87,8 +85,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
 
             if (verificationData.success) {
               toast.success("💰 Payment successful!");
-              
-              // Call the success callback with payment details
+
               onSuccess?.({
                 ...verificationData,
                 amount: amount,
@@ -96,7 +93,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
                 upiId: paymentData.upiId,
                 timestamp: new Date().toISOString()
               });
-              
+
               handleModalClose();
             } else {
               toast.error("Payment verification failed");
@@ -148,8 +145,10 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
 
       {/* Payment Modal */}
       {showPaymentModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-gray-100">
+        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-gray-100 
+                          max-h-[90vh] overflow-y-auto">
+            
             {/* Modal Header */}
             <div className="flex justify-between items-center p-6 border-b border-gray-100">
               <div className="flex items-center gap-3">
@@ -171,6 +170,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
 
             {/* Modal Body */}
             <div className="p-6 space-y-5">
+              {/* Recipient Name */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                   <span>Recipient Name</span>
@@ -186,6 +186,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
                 />
               </div>
 
+              {/* UPI ID */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                   <span>UPI ID</span>
@@ -201,6 +202,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
                 />
               </div>
 
+              {/* Amount */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                   <span>Amount</span>
@@ -262,6 +264,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
                 )}
               </button>
             </div>
+
           </div>
         </div>
       )}
