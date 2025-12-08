@@ -20,19 +20,31 @@ const __dirname = path.resolve();
 
 
 
-const allowedOrigins = [
-  "http://localhost:5173",                     // Vite dev
-  "http://localhost:3000",                     // CRA (if ever)
-  "http://chat-two-eta-68.vercel.app",
-  "https://chat-4w0uqhw6r-deepanshu-kumar-jindals-projects.vercel.app"  // deployed frontend
-];
+// const allowedOrigins = [
+//   "http://localhost:5173",                     // Vite dev
+//   "http://localhost:3000",                     // CRA (if ever)
+//   "http://chat-two-eta-68.vercel.app",
+//   "https://chat-4w0uqhw6r-deepanshu-kumar-jindals-projects.vercel.app"  // deployed frontend
+// ];
+
+// app.use(
+//   cors({
+//     origin: "https://chat-backend-h4jy.onrender.com/",
+//     credentials: true, // allow frontend to send cookies
+//   })
+// );
 
 app.use(
   cors({
-    origin: "https://chat-backend-h4jy.onrender.com/",
-    credentials: true, // allow frontend to send cookies
+    origin: [
+      "https://chat-two-eta-68.vercel.app",      // your current frontend
+      "https://chat-sphere-ecru-theta.vercel.app", // main prod
+      "http://localhost:5173",                   // local dev
+    ],
+    credentials: true,
   })
 );
+
 
 // app.use(
 //   cors({
