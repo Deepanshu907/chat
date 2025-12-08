@@ -28,7 +28,8 @@ const __dirname = path.resolve();
 const allowedOrigins = [
   "http://localhost:5173",                     // Vite dev
   "http://localhost:3000",                     // CRA (if ever)
-  "https://chat-sphere-ecru-theta.vercel.app"  // deployed frontend
+  "http://chat-two-eta-68.vercel.app",
+  "https://chat-4w0uqhw6r-deepanshu-kumar-jindals-projects.vercel.app"  // deployed frontend
 ];
 
 app.use(
