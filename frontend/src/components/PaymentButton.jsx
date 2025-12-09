@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { CreditCard, Loader2, X, IndianRupee, Send } from "lucide-react";
 import { createPaymentOrder, verifyPayment } from "../lib/api";
 import toast from "react-hot-toast";
@@ -9,7 +10,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
   const [paymentData, setPaymentData] = useState({
     amount: "",
     upiId: "",
-    recipientName: ""
+    recipientName: "",
   });
 
   const loadRazorpayScript = () => {
@@ -131,20 +132,9 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
     }
   };
 
-  return (
-    <>
-      <button
-        onClick={handlePaymentClick}
-        disabled={disabled}
-        className="px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-medium transition-all duration-200 flex items-center gap-2 text-sm shadow-lg hover:shadow-xl transform hover:scale-105"
-        title="Send Payment"
-      >
-        <CreditCard className="size-4" />
-        Pay
-      </button>
-
-      {/* Payment Modal */}
-      {showPaymentModal && (
+  // Render modal via portal so it’s NOT inside any transformed/overflow parent
+  const paymentModal = showPaymentModal
+    ? createPortal(
         <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-start justify-center pt-10 px-4">
           <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-gray-100 max-h-[calc(100vh-5rem)] overflow-y-auto">
             {/* Modal Header */}
@@ -268,8 +258,24 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
               </button>
             </div>
           </div>
-        </div>
-      )}
+        </div>,
+        document.body
+      )
+    : null;
+
+  return (
+    <>
+      <button
+        onClick={handlePaymentClick}
+        disabled={disabled}
+        className="px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-medium transition-all duration-200 flex items-center gap-2 text-sm shadow-lg hover:shadow-xl transform hover:scale-105"
+        title="Send Payment"
+      >
+        <CreditCard className="size-4" />
+        Pay
+      </button>
+
+      {paymentModal}
     </>
   );
 };
