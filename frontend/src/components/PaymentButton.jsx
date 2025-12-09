@@ -33,9 +33,9 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setPaymentData(prev => ({
+    setPaymentData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -69,7 +69,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
       }
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_uO9KUIRRmFD0rp",
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_RkKEEV93U51vim",
         amount: orderData.order.amount,
         currency: orderData.order.currency,
         name: "ChatSphere Pay",
@@ -91,7 +91,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
                 amount: amount,
                 recipientName: paymentData.recipientName,
                 upiId: paymentData.upiId,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
               });
 
               handleModalClose();
@@ -109,7 +109,7 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
         },
         notes: {
           recipient_name: paymentData.recipientName,
-          recipient_upi: paymentData.upiId
+          recipient_upi: paymentData.upiId,
         },
         theme: {
           color: "#10B981",
@@ -145,10 +145,8 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
 
       {/* Payment Modal */}
       {showPaymentModal && (
-        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-gray-100 
-                          max-h-[90vh] overflow-y-auto">
-            
+        <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-start justify-center pt-10 px-4">
+          <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl border border-gray-100 max-h-[calc(100vh-5rem)] overflow-y-auto">
             {/* Modal Header */}
             <div className="flex justify-between items-center p-6 border-b border-gray-100">
               <div className="flex items-center gap-3">
@@ -248,7 +246,12 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
               </button>
               <button
                 onClick={handlePayment}
-                disabled={isProcessing || !paymentData.amount || !paymentData.upiId || !paymentData.recipientName}
+                disabled={
+                  isProcessing ||
+                  !paymentData.amount ||
+                  !paymentData.upiId ||
+                  !paymentData.recipientName
+                }
                 className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-xl transition-all duration-200 font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
               >
                 {isProcessing ? (
@@ -264,7 +267,6 @@ const PaymentButton = ({ onSuccess, disabled = false }) => {
                 )}
               </button>
             </div>
-
           </div>
         </div>
       )}
